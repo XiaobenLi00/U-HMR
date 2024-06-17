@@ -49,26 +49,9 @@ def main():
     model = Mv_Fusion(cfg, tensorboard_log_dir)
     model = torch.nn.DataParallel(model, device_ids=gpus).cuda()
 
-    # ckpt = torch.load(cfg.MODEL.PRETRAINED)['state_dict']
-    # del_key = []
-    # for key, _ in ckpt.items():
-    #     if 'smpl_head.init_body_pose' == key:
-    #         del_key.append(key)
-    #     elif 'smpl_head.decpose.weight' == key:
-    #         del_key.append(key)
-    #     elif 'smpl_head.decpose.bias' == key:
-    #         del_key.append(key)
-    # for key in del_key:
-    #     del ckpt[key]
-
-    # model.module.load_state_dict(ckpt, strict=False)
-    # print("Model's state_dict:")
-    # for param_tensor in model.state_dict():
-    #     print(param_tensor, "\t", model.state_dict()[param_tensor].size())
-    #     time.sleep(0.5)
     mocap_dataset = datasets.mocap_dataset(cfg.DATASET.MOCAP)
     train_dataset = eval('datasets.' + cfg.DATASET.TRAIN_DATASET)(cfg, cfg.DATASET.TRAIN_SUBSET, True)
-    # train_dataset = MultiViewH36M(cfg, cfg.DATASET.TRAIN_SUBSET, True)
+
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=cfg.TRAIN.BATCH_SIZE,
@@ -84,7 +67,6 @@ def main():
         num_workers=1,
         pin_memory=True)
     val_dataset = eval('datasets.' + cfg.DATASET.TEST_DATASET)(cfg, cfg.DATASET.TEST_SUBSET, False)
-    # val_dataset = MultiViewH36M(cfg, cfg.DATASET.TEST_SUBSET, False)
     val_loader = torch.utils.data.DataLoader(
         val_dataset,
         batch_size=cfg.TRAIN.BATCH_SIZE,
@@ -102,7 +84,6 @@ def main():
         model.eval()
         with torch.no_grad():
             model.module.load_state_dict(torch.load(cfg.TEST.MODEL_FILE)['state_dict'])
-            # for i, (input, meta) in enumerate(val_loader):
             for i, data in enumerate(zip(val_loader, mocap_loader)):
                 n_views = 4
                 subset = random.sample(range(0, 4), n_views)
@@ -114,7 +95,6 @@ def main():
                     input_sub.append(input[j])
                     meta_sub.append(meta[j])
                 model(input_sub, meta_sub, i, mocap, meters, len_val_data, n_views, train = False)
-        # perf_indicator = meters['val_mpjpe'].avg
         logger.info(f'val_mpjpe: {meters["val_mpjpe"].avg}\t val_rec_error: {meters["val_rec_error"].avg}')
         return
     if cfg.TRAIN.RESUME:
@@ -126,10 +106,7 @@ def main():
 
         for i, data in enumerate(zip(train_loader, mocap_loader)):
             
-            # n_views = random.sample(range(1,5),1)[0]
             n_views = 4
-
-            # subset = random.sample(range(0, 4), cfg.DATASET.N_VIEWS)
             subset = random.sample(range(0, 4), n_views)
             subset.sort()
             (input, meta), mocap = data
@@ -146,7 +123,6 @@ def main():
         model.eval()
         with torch.no_grad():
             for i, data in enumerate(zip(val_loader, mocap_loader)):
-                # subset = random.sample(range(0, 4), cfg.DATASET.N_VIEWS)
                 n_views = 4
                 subset = random.sample(range(0, 4), n_views)
                 subset.sort()
@@ -186,16 +162,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    exit()
-    # from ...utils.config import get_config
-    cfg_name = 'resnet50.yaml'
-    from lib.models.heads.smpl_head import build_smpl_head, SMPLTransformerDecoderTokenHead, SMPLFCNFusionHead
-    cfg = get_config('experiments/h36m/{}'.format(cfg_name), merge= False)
-    # head = build_smpl_head(cfg)
-    head = SMPLFCNFusionHead(cfg)
-    features = torch.randn(4, 2048, 8, 8)
-    pred_body_pose, pred_betas, pred_global_orientation, pred_cam = head(features)
-    print(pred_body_pose.shape)
-    print(pred_betas.shape)
-    print(pred_global_orientation.shape)
-    print(pred_cam.shape)

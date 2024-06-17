@@ -1,0 +1,17 @@
+easydict==1.11
+einops==0.6.1
+h5py==3.6.0
+matplotlib==3.5.1
+opencv-python==4.8.0.76
+pymvg==2.1.0
+pyopengl==3.1.0
+smplx==0.1.28
+stack_data==0.2.0
+tensorboardx==2.5.1
+timm==0.9.7
+torch====1.11.0
+torchvision==0.12.0
+tqdm==4.64.0
+trimesh==3.23.5
+typing-extensions==4.7.1
+yacs==0.1.8
