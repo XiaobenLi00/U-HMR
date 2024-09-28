@@ -29,7 +29,7 @@ pip install -r requirements.txt
 - **Others**: Most of other data are from [SPIN](https://github.com/nkolot/SPIN) and [4D-Humans](https://github.com/shubham-goel/4D-Humans).
 
 ### Pretrained models
-We provide a set of [pretrained models](https://pan.baidu.com/s/1rtV533AlhQ6PRq8u6YsGjA) (password:uhmr) as follows:
+We provide a set of pretrained models using [BaiduDisk](https://pan.baidu.com/s/1rtV533AlhQ6PRq8u6YsGjA) (password:uhmr) and [OneDrive](https://1drv.ms/f/s!AqnMGeLS2QFOhbpt34u-GTmwNIpbRQ?e=aSWriS) as follows:
 - ResNet50
 - MLP
 - Independent tokens
