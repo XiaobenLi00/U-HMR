@@ -20,9 +20,7 @@ conda create --name U-HMR
 source activate U-HMR
 pip install -r requirements.txt
 ```
-[Find the Docker environment here](通过网盘分享的文件：u_hmr.tar
-链接: https://pan.baidu.com/s/19eWya63THlsNeXJ_eDm6zg?pwd=7k7k 提取码: 7k7k 
---来自百度网盘超级会员v1的分享)
+[Find the Docker environment here](https://pan.baidu.com/s/19eWya63THlsNeXJ_eDm6zg?pwd=7k7k)
 ### Data Setup
 
 - **Human3.6M**: We follow the [H36M-Toolbox](https://github.com/CHUNYUWANG/H36M-Toolbox.git) to process Human3.6M dataset. And the SMPL annotations are from [PyMAF](https://github.com/HongwenZhang/PyMAF).
