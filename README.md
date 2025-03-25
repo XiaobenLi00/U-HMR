@@ -20,7 +20,9 @@ conda create --name U-HMR
 source activate U-HMR
 pip install -r requirements.txt
 ```
-
+[Find the Docker environment here](通过网盘分享的文件：u_hmr.tar
+链接: https://pan.baidu.com/s/19eWya63THlsNeXJ_eDm6zg?pwd=7k7k 提取码: 7k7k 
+--来自百度网盘超级会员v1的分享)
 ### Data Setup
 
 - **Human3.6M**: We follow the [H36M-Toolbox](https://github.com/CHUNYUWANG/H36M-Toolbox.git) to process Human3.6M dataset. And the SMPL annotations are from [PyMAF](https://github.com/HongwenZhang/PyMAF).
@@ -49,6 +51,13 @@ The general structure of the project is as follows.
 ```
 python run.py --cfg_name cfg_file.yaml --dataset dataset_name
 ```
+### Model Inference
+```
+python infer.py --cfg_name cfg_file.yam --image_dir ./test_data
+```
+--cfg_name: Path to the model configuration file
+--image_dir: Directory containing test images
+
 ### Results
 1. Tested on Human3.6M
 
